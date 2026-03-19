@@ -1,12 +1,17 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
 
-app.MapGet("/products", () =>
-{
-    return new[] {
-        new { Id = 1, Name = "Laptop" },
-        new { Id = 2, Name = "Phone" }
-    };
-});
+var host = Host.CreateDefaultBuilder(args)
+    .ConfigureWebHostDefaults(webBuilder =>
+    {
+        webBuilder.Configure(app =>
+        {
+            app.Run(async context =>
+            {
+                await context.Response.WriteAsync("Hello World!");
+            });
+        });
+    })
+    .Build();
 
-app.Run();
+host.Run();
