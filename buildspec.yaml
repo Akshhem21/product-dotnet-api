@@ -1,0 +1,15 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin <account_id>.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+  build:
+    commands:
+      - dotnet restore
+      - dotnet publish -c Release -o out
+      - docker build -t product-dotnet-app .
+      - docker tag product-dotnet-app:latest <account_id>.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/product-dotnet-app:latest
+  post_build:
+    commands:
+      - docker push <account_id>.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/product-dotnet-app:latest
