@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-var host = Host.CreateDefaultBuilder(args)
+Host.CreateDefaultBuilder(args)
     .ConfigureWebHostDefaults(webBuilder =>
     {
         webBuilder.Configure(app =>
@@ -12,6 +13,5 @@ var host = Host.CreateDefaultBuilder(args)
             });
         });
     })
-    .Build();
-
-host.Run();
+    .Build()
+    .Run();
